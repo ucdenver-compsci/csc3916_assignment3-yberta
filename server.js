@@ -86,6 +86,62 @@ router.post('/signin', function (req, res) {
     })
 });
 
+router.post('/movies', authJwtController.isAuthenticated, function(req, res){
+    if (!req.body.title || !req.body.releaseDate || !req.body.genre || req.body.actors){
+        res.status(400).json({success: false, msg:"Please provide title, date, genre, and at least actors of the movie." });
+        } else{
+            var movie = new Movie();
+            movie.title = req.body.title;
+            movie.releaseDate = req.body.releaseDate;
+            movie.genre = req.body.genre;
+            movie.actors = req.body.actors;
+
+            movie.save(function(err){
+                if (err){
+                    res.status(401).json({success: false, msg: "Error saving movie."});
+                }
+                else{
+                    res.json({success: true, msg: "Movie saved successfully."});
+                }
+            });
+        }
+});
+
+router.get('/movies', function(req,res){
+    Movie.find({}, function(err, movies){
+        if (err) {
+            return res.status(500).send(err);
+        }else{
+        res.json(movies);
+        }
+    });
+});
+
+req.params.movieParameter = undefined;
+router.get('/movies/:movieParameter', function(req, res){
+    Movie.findOne({title: req.params.movieParameter}, function(err, movie){
+        if (err) res.status(500).send(err);
+        else if (!movie) res.status(500).json({msg:"Movie not found."});
+        else res.json(movie);
+    });
+});
+
+router.put('./movies/:movieParameter', authJwtController.isAuthenticated, function(req, res){
+    Movie.findOneAndUpdate({title: req.params.movieParameter}. req.body,{new: true},function(err, movie){
+        if(err) res.status(500).send(err);
+        else if (!movie) res.status(500).json({msg: "Movie not found."});
+        else res.json(movie);
+    });
+});
+
+router.delete('./movies/:movieParameter', authJwtController.isAuthenticated, function(req, res){
+    Movie.findOneAndDelete({title: req.params.movieParameter}, function(req, res){
+        if(err) res.status(500).send(err);
+        else if (!movie) res.status(500).json({msg: "Movie not found."});
+        else res.json({message: 'Movie successfully deleted.'});
+    });
+});
+
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
 module.exports = app; // for testing only
