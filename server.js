@@ -129,7 +129,7 @@ router.get('/movies/:movieParameter', function(req, res){
     });
 });
 
-router.put('./movies/:movieParameter', authJwtController.isAuthenticated, function(req, res){
+router.put('/movies/:movieParameter', authJwtController.isAuthenticated, function(req, res){
     Movie.findOneAndUpdate({title: req.params.movieParameter}. req.body,{new: true},function(err, movie){
         if(err) res.status(500).send(err);
         else if (!movie) res.status(500).json({msg: "Movie not found."});
@@ -137,8 +137,8 @@ router.put('./movies/:movieParameter', authJwtController.isAuthenticated, functi
     });
 });
 
-router.delete('./movies/:movieParameter', authJwtController.isAuthenticated, function(req, res){
-    Movie.findOneAndDelete({title: req.params.movieParameter}, function(req, res){
+router.delete('/movies/:movieParameter', authJwtController.isAuthenticated, function(req, res){
+    Movie.findOneAndDelete({title: req.params.movieParameter}, function(err, movie){
         if(err) res.status(500).send(err);
         else if (!movie) res.status(500).json({msg: "Movie not found."});
         else res.json({message: 'Movie successfully deleted.'});
