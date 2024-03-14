@@ -5,7 +5,7 @@ mongoose.connect(process.env.DB);
 // Movie schema
 const MovieSchema = new Schema({
     title: {type: String, required: true, index: true},
-    releaseDate: Date,
+    releaseDate: {type:Date, required: true},
     genre:{
         type: String,
         enum: [
@@ -17,7 +17,7 @@ const MovieSchema = new Schema({
         characterName: String,
     }],
 });
-
+MovieSchema.index({ title: 1, releaseDate: 1 }, { unique: true });
 // return the model
 const Movie = mongoose.model('Movie', MovieSchema);
 
