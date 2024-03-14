@@ -59,12 +59,12 @@ const addMovies = [
     }
 ];
 
-Movie.create(addMovies, function(err, movies){
+/*Movie.create(addMovies, function(err, movies){
     if (err){
         console.error("Error adding movies", err);
     } else{
         console.log("Movies added", movies)
     }
-});
+});*/
 
 module.exports = Movie;
