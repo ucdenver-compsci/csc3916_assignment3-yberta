@@ -90,11 +90,8 @@ router.post('/movies', authJwtController.isAuthenticated, function(req, res){
     if (!req.body.title || !req.body.releaseDate || !req.body.genre || !req.body.actors) {
         res.status(400).json({
             success: false,
-            msg: "Please provide title, date, genre, and at least actors of the movie."
+            msg: "Please provide title, date, genre, and at least 3 actors of the movie."
         });
-    }
-    else if(error.name === "MongoError" || error.code=== 11000){
-        res.status(400).json({success:false, msg:"Movie already exists." });
     }
         else{
             var movie = new Movie();
