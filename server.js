@@ -87,7 +87,7 @@ router.post('/signin', function (req, res) {
 });
 
 router.post('/movies', authJwtController.isAuthenticated, function(req, res){
-    if (!req.body.title || !req.body.releaseDate || !req.body.genre || req.body.actors){
+    if (!req.body.title || !req.body.releaseDate || !req.body.genre || !req.body.actors){
         res.status(400).json({success: false, msg:"Please provide title, date, genre, and at least actors of the movie." });
         } else{
             var movie = new Movie();
