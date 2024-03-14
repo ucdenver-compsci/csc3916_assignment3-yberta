@@ -40,7 +40,7 @@ const addMovies = [
         title: "Scarface",
         releaseDate: new Date('1983-12-09'),
         genre: 'Thriller',
-        actors: [{actorName: "Al Pacino", characterName: "Tony Montana"}, {actorName: "Steven Bauer", characterName: "Manny Ribera"}, {actorName: "Michelle Pfeiffer"}, {characterName: "Elvira Hancock"}
+        actors: [{actorName: "Al Pacino", characterName: "Tony Montana"}, {actorName: "Steven Bauer", characterName: "Manny Ribera"}, {actorName: "Michelle Pfeiffer", characterName: "Elvira Hancock"}
         ]
     },
     {
