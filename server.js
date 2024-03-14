@@ -130,9 +130,9 @@ router.get('/movies/:movieParameter', function(req, res){
 });
 
 router.put('/movies/:movieParameter', authJwtController.isAuthenticated, function(req, res){
-    Movie.findOneAndUpdate({title: req.params.movieParameter}. req.body,{new: true},function(err, movie){
+    Movie.findOneAndUpdate({title: req.params.movieParameter}, req.body,{new: true},function(err, movie){
         if(err) res.status(500).send(err);
-        else if (!movie) res.status(500).json({msg: "Movie not found."});
+        else if (!movie) res.status(404).json({msg: "Movie not found."});
         else res.json(movie);
     });
 });
