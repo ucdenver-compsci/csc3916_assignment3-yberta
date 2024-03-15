@@ -124,7 +124,7 @@ router.get('/movies', function(req,res){
 router.get('/movies/:movieParameter', function(req, res){
     Movie.findOne({title: req.params.movieParameter}, function(err, movie){
         if (err) res.status(500).send(err);
-        else if (!movie) res.status(500).json({msg:"Movie not found."});
+        else if (!movie) res.status(404).json({msg:"Movie not found."});
         else res.json(movie);
     });
 });
