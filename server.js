@@ -188,6 +188,35 @@ router.get('/reviews', function(req, res){
 
 });
 
+router.get('/movies/:movieParameter', authJwtController.isAuthenticated, function(req, res){
+    if (req.query.reviews === 'true') {
+        Order.aggregate([
+            {
+                $match: { title: req.params.movieParameter } // replace orderId with the actual order id
+            },
+            {
+                $lookup: {
+                    from: "reviews", // name of the foreign collection
+                    localField: "_id", // field in the orders collection
+                    foreignField: "movieId", // field in the items collection
+                    as: "reviews" // output array where the joined items will be placed
+                }
+            }
+        ]).exec(function(err, result) {
+            if (err) {
+                // handle error
+            } else {
+                console.log(result);
+            }
+        });
+    }else{
+        Movie.findOne({title: req.params.movieParameter}, function(err, movie){
+            if (err) res.status(500).send(err);
+            else if (!movie) res.status(404).json({msg:"Movie not found."});
+            else res.json(movie);
+        });
+    }
+});
 
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
