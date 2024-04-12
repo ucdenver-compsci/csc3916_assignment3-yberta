@@ -146,7 +146,7 @@ router.delete('/movies/:movieParameter', authJwtController.isAuthenticated, func
     });
 });
 
-router.post('reviews', authJwtController.isAuthenticated, function(req, res){
+router.post('/reviews', authJwtController.isAuthenticated, function(req, res){
     if(!req.body.movieId || !req.body.review || !req.body.rating ){
         return res.status(400).json({
             success: false,
