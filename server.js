@@ -13,6 +13,7 @@ var jwt = require('jsonwebtoken');
 var cors = require('cors');
 var User = require('./Users');
 var Movie = require('./Movies');
+var Review = require('./Reviews');
 
 var app = express();
 app.use(cors());
@@ -144,6 +145,36 @@ router.delete('/movies/:movieParameter', authJwtController.isAuthenticated, func
         else res.json({message: 'Movie successfully deleted.'});
     });
 });
+
+router.post('reviews', authJwtController.isAuthenticated, function(req, res){
+    if(!req.body.movieId || !req.body.review || !req.body.rating ){
+        return res.status(400).json({
+            success: false,
+            message: "Please provide movieId, review, and a rating."
+        });
+    }else{
+        var review = new Review();
+        review.movieId = req.body.movieId;
+        review.username = req.body.username;
+        review.review = req.body.review;
+        review.rating = req.body.rating;
+
+        review.save(function(err){
+            if (err){
+                return res.status(500).json({
+                    success: false,
+                    message: "Error saving review."
+                });
+            }else{
+                res.json({
+                    success: true,
+                    message: "Review created!"
+                });
+            }
+        });
+    }
+});
+
 
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
