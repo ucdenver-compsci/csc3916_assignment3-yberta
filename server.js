@@ -192,7 +192,7 @@ router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, 
     if (req.query.reviews === 'true') {
         Movie.aggregate([
             {
-                $match: { title: req.params.movieId } // replace orderId with the actual order id
+                $match: { movieId: req.params.movieId } // replace orderId with the actual order id
             },
             {
                 $lookup: {
@@ -222,7 +222,7 @@ router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, 
             }
         });
     }else{
-        Movie.findOne({title: req.params.movieId}, function(err, movie){
+        Movie.findOne({movieId: req.params.movieId}, function(err, movie){
             if (err) res.status(500).send(err);
             else if (!movie) res.status(404).json({msg:"Movie not found."});
             else res.json(movie);
