@@ -17,9 +17,22 @@ const MovieSchema = new Schema({
         characterName: String,
     }],
 });
+
+/*const reviewSchema = new mongoose.Schema({
+    movieId: { type: mongoose.Schema.Types.ObjectId, ref: 'Movie' },
+    username: String,
+    review: String,
+    rating: { type: Number, min: 0, max: 5 }
+});*/
+
+
 MovieSchema.index({ title: 1, releaseDate: 1 }, { unique: true });
 // return the model
 const Movie = mongoose.model('Movie', MovieSchema);
+
+/*reviewSchema.index({ movieId: 1});
+//return
+const Review = mongoose.model('Review', reviewSchema);*/
 
 const addMovies = [
     {
