@@ -204,9 +204,9 @@ router.get('/movies/:movieParameter', authJwtController.isAuthenticated, functio
             }
         ]).exec(function(err, result) {
             if (err) {
-                // handle error
+                res.status(500).send(err);
             } else {
-                console.log(result);
+                res.json(result[0]);
             }
         });
     }else{
