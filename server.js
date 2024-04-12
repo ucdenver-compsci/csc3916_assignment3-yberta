@@ -214,11 +214,11 @@ router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, 
                     actors: { $first: "$actors" },
                     reviews: { $push: "$reviews" } // Group reviews into an array
                 }}
-        ]).exec(function(err, result) {
+        ]).exec(function(err, movies) {
             if (err) {
                 res.status(500).send(err);
             } else {
-                res.json(result[0]);
+                res.json(movies);
             }
         });
     }else{
