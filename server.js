@@ -188,11 +188,11 @@ router.get('/reviews', function(req, res){
 
 });
 
-router.get('/movies/:movieParameter', authJwtController.isAuthenticated, function(req, res){
+router.get('/movies/:movieparameter', authJwtController.isAuthenticated, function(req, res){
     if (req.query.reviews === 'true') {
-        Order.aggregate([
+        Movie.aggregate([
             {
-                $match: { title: req.params.movieParameter } // replace orderId with the actual order id
+                $match: { title: req.params.movieparameter } // replace orderId with the actual order id
             },
             {
                 $lookup: {
@@ -201,7 +201,19 @@ router.get('/movies/:movieParameter', authJwtController.isAuthenticated, functio
                     foreignField: "movieId", // field in the items collection
                     as: "reviews" // output array where the joined items will be placed
                 }
-            }
+            },
+            { $unwind: {
+                    path: "$reviews",
+                    preserveNullAndEmptyArrays: true // Keep movies even if there are no reviews
+                }},
+            { $group: {
+                    _id: "$_id", // Group back by movie _id
+                    title: { $first: "$title" },
+                    releaseDate: { $first: "$releaseDate" },
+                    genre: { $first: "$genre" },
+                    actors: { $first: "$actors" },
+                    reviews: { $push: "$reviews" } // Group reviews into an array
+                }}
         ]).exec(function(err, result) {
             if (err) {
                 res.status(500).send(err);
