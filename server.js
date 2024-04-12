@@ -175,7 +175,7 @@ router.post('/reviews', authJwtController.isAuthenticated, function(req, res){
     }
 });
 
-router.get('/reviews/:movieId', function(req, res){
+router.get('/reviews/:movieparameter', function(req, res){
     Review.find({movieId: req.params.movieId}, function(err, review){
         if(err){
             return res.status(500).send(err);
