@@ -176,13 +176,13 @@ router.post('/reviews', authJwtController.isAuthenticated, function(req, res){
 });
 
 router.get('/reviews/:movieId', function(req, res){
-    Review.find({movieId: req.params.movieId}, function(err, movies){
+    Review.find({movieId: req.params.movieId}, function(err, review){
         if(err){
             return res.status(500).send(err);
         }else if(req.body.length===0){
             return res.status(404).json({msg:"No movies found."});
         }else{
-            res.json(req.body);
+            res.json(review);
         }
     });
 
