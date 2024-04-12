@@ -188,11 +188,11 @@ router.get('/reviews', function(req, res){
 
 });
 
-router.get('/movies/:movieparameter', authJwtController.isAuthenticated, function(req, res){
+router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, res){
     if (req.query.reviews === 'true') {
         Movie.aggregate([
             {
-                $match: { title: req.params.movieparameter } // replace orderId with the actual order id
+                $match: { title: req.params.movieId } // replace orderId with the actual order id
             },
             {
                 $lookup: {
@@ -222,7 +222,7 @@ router.get('/movies/:movieparameter', authJwtController.isAuthenticated, functio
             }
         });
     }else{
-        Movie.findOne({title: req.params.movieParameter}, function(err, movie){
+        Movie.findOne({title: req.params.movieId}, function(err, movie){
             if (err) res.status(500).send(err);
             else if (!movie) res.status(404).json({msg:"Movie not found."});
             else res.json(movie);
