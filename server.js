@@ -182,7 +182,7 @@ router.get('/reviews/:movieId', function(req, res){
         }else if(req.body.length===0){
             return res.status(404).json({msg:"No movies found."});
         }else{
-            res.json(movies);
+            res.json(review);
         }
     });
 
