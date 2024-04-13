@@ -210,11 +210,11 @@ router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, 
                     actors: { $first: "$actors" },
                     reviews: { $push: "$reviews" } // Group reviews into an array
                 }}
-        ]).exec(function(err, reviews) {
+        ]).exec(function(err, result) {
             if (err) {
                 res.status(500).send(err);
             } else {
-                res.json(reviews);
+                console.log(result);
             }
         });
     }else{
