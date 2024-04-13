@@ -192,7 +192,7 @@ router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, 
     if (req.query.reviews === 'true') {
         Movie.aggregate([
             {
-                $match: { movieId: req.params.movieId } // replace orderId with the actual order id
+                $match: { _id: mongoose.Types.ObjectId(req.params.movieId) } // replace orderId with the actual order id
             },
             {
                 $lookup: {
