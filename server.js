@@ -198,7 +198,7 @@ router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, 
                 $lookup: {
                     from: "reviews", // name of the foreign collection
                     localField: "_id", // field in the orders collection
-                    foreignField: "movieId", // field in the items collection
+                    foreignField: req.params.movieId, // field in the items collection
                     as: "reviews" // output array where the joined items will be placed
                 }
             }
