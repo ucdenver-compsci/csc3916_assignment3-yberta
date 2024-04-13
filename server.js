@@ -192,11 +192,7 @@ router.post('/reviews', authJwtController.isAuthenticated, function(req, res){
 
 router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, res){
     if (req.query.reviews === 'true') {
-
         Movie.aggregate([
-            {
-                $match : {_id: movieId},
-            },
             {
                 $lookup: {
                     from: "reviews", // name of the foreign collection
@@ -211,7 +207,7 @@ router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, 
             } else if (!movies || movies.length === 0) {
                 res.status(404).json({success: false, message: "No movies found."});
             } else {
-                res.json(movies[0]);
+                res.json(movies);
             }
         });
     } else {
