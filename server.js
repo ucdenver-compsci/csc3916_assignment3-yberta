@@ -14,6 +14,7 @@ var cors = require('cors');
 var User = require('./Users');
 var Movie = require('./Movies');
 var Review = require('./Reviews');
+const {Types} = require("mongoose");
 
 var app = express();
 app.use(cors());
@@ -194,7 +195,7 @@ router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, 
     if (req.query.reviews === 'true') {
         Movie.aggregate([
             {
-                $match: { _id: req.params.movieId } // Ensure this is the first stage
+                $match: { _id: Types.ObjectId(req.params.movieId) } // Ensure this is the first stage
             },
             {
                 $lookup: {
