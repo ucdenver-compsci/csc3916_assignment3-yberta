@@ -15,7 +15,6 @@ var User = require('./Users');
 var Movie = require('./Movies');
 var Review = require('./Reviews');
 const {Type} = require("mongoose");
-const {query} = require("express/lib/request");
 
 var app = express();
 app.use(cors());
@@ -192,7 +191,6 @@ router.post('/reviews', authJwtController.isAuthenticated, function(req, res){
 });*/
 
 
-query.reviews = undefined;
 router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, res){
     if (req.query.reviews === 'true') {
         Movie.aggregate([
@@ -207,16 +205,16 @@ router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, 
                     as: "reviews" // output array where the joined items will be placed
                 }
             }
-        ]).exec(function(err, movies) {
+        ]).exec(function (err, movies) {
             if (err) {
                 res.status(500).send({message: "Issue fetching movie"});
-            } else if(!movies||movies.length === 0){
+            } else if (!movies || movies.length === 0) {
                 res.status(404).json({success: false, message: "No movies found."});
-            }else {
+            } else {
                 res.json(movies[0]);
             }
         });
-    } else{
+    } else {
         Movie.findById(req.params.movieId, function(err, movie){
             if (err) res.status(500).send(err);
             else if (!movie) res.status(404).json({msg:"Movie not found."});
