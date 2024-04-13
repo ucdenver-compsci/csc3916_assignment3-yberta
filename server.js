@@ -195,7 +195,7 @@ router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, 
 
         Movie.aggregate([
             {
-                $match : {_id: req.params.movieId},
+                $match : {_id: movieId},
             },
             {
                 $lookup: {
