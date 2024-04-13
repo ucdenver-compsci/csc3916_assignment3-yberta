@@ -14,7 +14,6 @@ var cors = require('cors');
 var User = require('./Users');
 var Movie = require('./Movies');
 var Review = require('./Reviews');
-const {Type} = require("mongoose");
 
 var app = express();
 app.use(cors());
@@ -193,6 +192,7 @@ router.post('/reviews', authJwtController.isAuthenticated, function(req, res){
 
 router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, res){
     if (req.query.reviews === 'true') {
+
         Movie.aggregate([
             {
                 $lookup: {
