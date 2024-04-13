@@ -191,6 +191,7 @@ router.post('/reviews', authJwtController.isAuthenticated, function(req, res){
 });*/
 
 router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, res){
+    console.log(req.query)
     if (req.query.reviews === 'true') {
         Movie.aggregate([
             {
