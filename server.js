@@ -202,23 +202,19 @@ router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, 
                     as: "reviews" // output array where the joined items will be placed
                 }
             },
-            { $unwind: {
-                    path: "$reviews",
-                    preserveNullAndEmptyArrays: true // Keep movies even if there are no reviews
-                }},
             { $group: {
-                    _id: "$_id", // Group back by movie _id
+                    _id: "$movieId", // Group back by movie _id
                     title: { $first: "$title" },
                     releaseDate: { $first: "$releaseDate" },
                     genre: { $first: "$genre" },
                     actors: { $first: "$actors" },
                     reviews: { $push: "$reviews" } // Group reviews into an array
                 }}
-        ]).exec(function(err, movies) {
+        ]).exec(function(err, reviews) {
             if (err) {
                 res.status(500).send(err);
             } else {
-                res.json(movies);
+                res.json(reviews);
             }
         });
     }else{
