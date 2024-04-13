@@ -190,7 +190,7 @@ router.post('/reviews', authJwtController.isAuthenticated, function(req, res){
 });*/
 
 router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, res){
-    if (req.query.reviews === 'true') {
+    while(req.query.reviews === 'true') {
         Movie.aggregate([
             {
                 $lookup: {
@@ -215,13 +215,13 @@ router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, 
                 console.log(result);
             }
         });
-    }else{
+    }/*else{
         Movie.findOne({movieId: req.params.movieId}, function(err, movie){
             if (err) res.status(500).send(err);
             else if (!movie) res.status(404).json({msg:"Movie not found."});
             else res.json(movie);
         });
-    }
+    }*/
 });
 
 app.use('/', router);
