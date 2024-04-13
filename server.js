@@ -177,8 +177,8 @@ router.post('/reviews', authJwtController.isAuthenticated, function(req, res){
     }
 });
 
-/*router.get('/reviews/:movieId', function(req, res){
-    Review.findOne({movieId:req.params.movieId}, function(err, review){
+router.get('/reviews', function(req, res){
+    Review.find({}, function(err, review){
         if(err){
             return res.status(500).send(err);
         }else if(req.body.length===0){
@@ -188,7 +188,7 @@ router.post('/reviews', authJwtController.isAuthenticated, function(req, res){
         }
     });
 
-});*/
+});
 
 
 router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, res){
