@@ -122,13 +122,13 @@ router.get('/movies', authJwtController.isAuthenticated, function(req,res){
     });
 });
 
-router.get('/movies/:movieParameter',authJwtController.isAuthenticated, function(req, res){
+/*router.get('/movies/:movieParameter',authJwtController.isAuthenticated, function(req, res){
     Movie.findOne({title: req.params.movieParameter}, function(err, movie){
         if (err) res.status(500).send(err);
         else if (!movie) res.status(404).json({msg:"Movie not found."});
         else res.json(movie);
     });
-});
+});*/
 
 router.put('/movies/:movieParameter', authJwtController.isAuthenticated, function(req, res){
     Movie.findOneAndUpdate({title: req.params.movieParameter}, req.body,{new: true},function(err, movie){
@@ -175,7 +175,7 @@ router.post('/reviews', authJwtController.isAuthenticated, function(req, res){
     }
 });
 
-router.get('/reviews/:movieId', function(req, res){
+/*router.get('/reviews/:movieId', function(req, res){
     Review.findOne({movieId:req.params.movieId}, function(err, review){
         if(err){
             return res.status(500).send(err);
@@ -186,7 +186,7 @@ router.get('/reviews/:movieId', function(req, res){
         }
     });
 
-});
+});*/
 
 router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, res){
     if (req.query.reviews === 'true') {
