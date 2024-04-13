@@ -195,9 +195,6 @@ router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, 
     if (req.query.reviews === 'true') {
         Movie.aggregate([
             {
-                $match: {_id: Type.ObjectId(req.params.movieId)},
-            },
-            {
                 $lookup: {
                     from: "reviews", // name of the foreign collection
                     localField: "_id", // field in the orders collection
