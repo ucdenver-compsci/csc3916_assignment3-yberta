@@ -14,6 +14,7 @@ var cors = require('cors');
 var User = require('./Users');
 var Movie = require('./Movies');
 var Review = require('./Reviews');
+const {Type} = require("mongoose");
 
 var app = express();
 app.use(cors());
@@ -193,30 +194,27 @@ router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, 
     if (req.query.reviews === 'true') {
         Movie.aggregate([
             {
+                $match: {_id: Type.ObjectId(req.params.movieId)},
+            },
+            {
                 $lookup: {
                     from: "reviews", // name of the foreign collection
-                    localField: "reviews", // field in the orders collection
-                    foreignField: "_id", // field in the items collection
-                    as: "reviewsDetails" // output array where the joined items will be placed
+                    localField: "_id", // field in the orders collection
+                    foreignField: "movieId", // field in the items collection
+                    as: "reviews" // output array where the joined items will be placed
                 }
-            },
-            { $group: {
-                    _id: "$movieId", // Group back by movie _id
-                    title: { $first: "$title" },
-                    releaseDate: { $first: "$releaseDate" },
-                    genre: { $first: "$genre" },
-                    actors: { $first: "$actors" },
-                    reviews: { $push: "$reviews" } // Group reviews into an array
-                }}
-        ]).exec(function(err, result) {
+            }
+        ]).exec(function(err, movies) {
             if (err) {
-                res.status(500).send(err);
-            } else {
-                console.log(result);
+                res.status(500).send({message: "Issue fetching movie"});
+            } else if(!movies||movies.length === 0){
+                res.status(404).json({success: false, message: "No movies found."});
+            }else {
+                res.json(movies[0]);
             }
         });
     }else{
-        Movie.findOne({movieId: req.params.movieId}, function(err, movie){
+        Movie.findById(req.params.movieId, function(err, movie){
             if (err) res.status(500).send(err);
             else if (!movie) res.status(404).json({msg:"Movie not found."});
             else res.json(movie);
