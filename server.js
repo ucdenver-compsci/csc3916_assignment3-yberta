@@ -188,18 +188,18 @@ router.post('/reviews', authJwtController.isAuthenticated, function(req, res){
 
 });*/
 
-router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, res){
+router.get('/movies/:movieparameter', authJwtController.isAuthenticated, function(req, res){
     if (req.query.reviews === 'true') {
         Movie.aggregate([
             {
-                $match: { movieId: req.params.movieId } // replace orderId with the actual order id
+                $match: { _id: req.params.movieId } // replace orderId with the actual order id
             },
             {
                 $lookup: {
                     from: "reviews", // name of the foreign collection
-                    localField: "_id", // field in the orders collection
-                    foreignField: "movieId", // field in the items collection
-                    as: "reviews" // output array where the joined items will be placed
+                    localField: "reviews", // field in the orders collection
+                    foreignField: "_id", // field in the items collection
+                    as: "reviewsDetails" // output array where the joined items will be placed
                 }
             },
             { $group: {
