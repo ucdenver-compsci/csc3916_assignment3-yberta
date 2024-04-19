@@ -22,6 +22,8 @@ const MovieSchema = new Schema({
         actorName: String,
         characterName: String,
     }],
+    avgRating: {type: Number, default: 0},
+    imageUrl : String
 });
 
 /*const reviewSchema = new mongoose.Schema({
@@ -46,7 +48,8 @@ const addMovies = [
         releaseDate: new Date('1972-03-24'),
         genre: 'Drama',
         actors: [{actorName: "Al Pacino", characterName: "Michael Corleone"}, {actorName: "Marlon Brando", characterName: "Vito Corleone"}, {actorName: "James Caan", characterName:"Sonny Corleone"}
-        ]
+        ],
+        imageUrl : "https://assignment3react.s3.us-east-2.amazonaws.com/theGodfather.jpg"
     },
     {
         title: "Seven",

@@ -123,14 +123,14 @@ router.get('/movies', authJwtController.isAuthenticated, function(req,res){
     });
 });
 
-/*router.get('/movies/:movieParameter',authJwtController.isAuthenticated, function(req, res){
+router.get('/movies/:movieParameter',authJwtController.isAuthenticated, function(req, res){
     Movie.findOne({title: req.params.movieParameter}, function(err, movie){
         if (err) res.status(500).send(err);
         else if (!movie) res.status(404).json({msg:"Movie not found."});
         else res.json(movie);
     });
 });
-*/
+
 
 router.put('/movies/:movieParameter', authJwtController.isAuthenticated, function(req, res){
     Movie.findOneAndUpdate({title: req.params.movieParameter}, req.body,{new: true},function(err, movie){
@@ -204,6 +204,13 @@ router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, 
                     foreignField: "movieId", // field in the items collection
                     as: "reviews" // output array where the joined items will be placed
                 }
+            }, {
+                $addFields: {
+                    avgRating: {$avg: '$movieReviews.rating'}
+                }
+            },
+            {
+                $sort: {avgRating: -1}
             }
         ]).exec(function (err, movies) {
             if (err) {
