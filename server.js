@@ -113,7 +113,7 @@ router.post('/movies', authJwtController.isAuthenticated, function(req, res){
         }
 });
 
-router.get('/movies', authJwtController.isAuthenticated, function(req,res){
+/*router.get('/movies', authJwtController.isAuthenticated, function(req,res){
     Movie.find({}, function(err, movies){
         if (err) {
             return res.status(500).send(err);
@@ -121,15 +121,15 @@ router.get('/movies', authJwtController.isAuthenticated, function(req,res){
         res.json(movies);
         }
     });
-});
+});*/
 
-router.get('/movies/:movieParameter',authJwtController.isAuthenticated, function(req, res){
+/*router.get('/movies/:movieParameter',authJwtController.isAuthenticated, function(req, res){
     Movie.findOne({title: req.params.movieParameter}, function(err, movie){
         if (err) res.status(500).send(err);
         else if (!movie) res.status(404).json({msg:"Movie not found."});
         else res.json(movie);
     });
-});
+});*/
 
 
 router.put('/movies/:movieParameter', authJwtController.isAuthenticated, function(req, res){
@@ -206,7 +206,7 @@ router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, 
                 }
             }, {
                 $addFields: {
-                    avgRating: {$avg: '$movieReviews.rating'}
+                    avgRating: {$avg: '$Reviews.rating'}
                 }
             },
             {
