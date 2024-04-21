@@ -206,7 +206,7 @@ router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, 
                 }
             }, {
                 $addFields: {
-                    avgRating: {$avg: '$reviews.rating'}
+                    avgRating: {$avg: '$Review.rating'}
                 }
             },
             {
@@ -229,7 +229,6 @@ router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, 
         });
     }
 });
-
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
 module.exports = app; // for testing only
