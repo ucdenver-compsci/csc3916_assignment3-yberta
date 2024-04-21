@@ -113,7 +113,7 @@ router.post('/movies', authJwtController.isAuthenticated, function(req, res){
         }
 });
 
-/*router.get('/movies', authJwtController.isAuthenticated, function(req,res){
+router.get('/movies', authJwtController.isAuthenticated, function(req,res){
     Movie.find({}, function(err, movies){
         if (err) {
             return res.status(500).send(err);
@@ -121,7 +121,7 @@ router.post('/movies', authJwtController.isAuthenticated, function(req, res){
         res.json(movies);
         }
     });
-});*/
+});
 
 /*router.get('/movies/:movieParameter',authJwtController.isAuthenticated, function(req, res){
     Movie.findOne({title: req.params.movieParameter}, function(err, movie){
