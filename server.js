@@ -202,11 +202,11 @@ router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, 
                     from: "reviews", // name of the foreign collection
                     localField: "_id", // field in the orders collection
                     foreignField: "movieId", // field in the items collection
-                    as: "reviews" // output array where the joined items will be placed
+                    as: "movieReviews" // output array where the joined items will be placed
                 }
             }, {
                 $addFields: {
-                    avgRating: {$avg: 'reviews.rating'}
+                    avgRating: {$avg: '$movieReviews.rating'}
                 }
             },
             {
