@@ -192,18 +192,20 @@ router.get('/reviews', function(req, res){
 
 
 router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, res){
+    var movieSearch = new Movie();
+    movieSearch.movieId = req.params.movieId;
     if (req.query.reviews === 'true') {
         Movie.aggregate([
-            {
-                $match: { _id: Types.ObjectId(req.params.movieId) } // Ensure this is the first stage
-            },
             {
                 $lookup: {
                     from: "reviews", // name of the foreign collection
                     localField: "_id", // field in the orders collection
                     foreignField: "movieId", // field in the items collection
-                    as: "movieReviews" // output array where the joined items will be placed
+                    as: "reviews" // output array where the joined items will be placed
                 }
+            },
+            {
+                $match: { _id: Types.ObjectId(req.params.movieId) } // Ensure this is the first stage
             }, {
                 $addFields: {
                     avgRating: {$avg: '$Review.rating'}
