@@ -220,7 +220,7 @@ router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, 
             } else if (!movies || movies.length === 0) {
                 res.status(404).json({success: false, message: "No movies found."});
             } else {
-                res.json(movies);
+                res.json(movies[0]);
             }
         });
     } else {
