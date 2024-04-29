@@ -114,12 +114,29 @@ router.post('/movies', authJwtController.isAuthenticated, function(req, res){
 });
 
 router.get('/movies', authJwtController.isAuthenticated, function(req,res){
-    Movie.find({}, function(err, movies){
-        if (err) {
-            return res.status(500).send(err);
-        }else{
-        res.json(movies);
+    Movie.aggregate([
+        {
+            $lookup: {
+                from: "reviews",
+                localField: "_id",
+                foreignField: "movieId",
+                as: "movieReviews"
+            }
+        },
+        {
+            $addFields: {
+                avgRating: { $avg: "$movieReviews.rating" }
+            }
+        },
+        {
+            $sort: { avgRating: -1 }
         }
+    ]).exec((err, movies) => {
+        if (err) {
+            console.error("Error in aggregation: ", err);
+            return res.status(500).send(err);
+        }
+        res.json(movies);
     });
 });
 
