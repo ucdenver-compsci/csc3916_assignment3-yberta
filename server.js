@@ -211,9 +211,9 @@ router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, 
                     avgRating: {$avg: '$movieReviews.rating'}
                 }
             },
-            {
+            /*{
                 $sort: {avgRating: -1}
-            }
+            }*/
         ]).exec(function (err, movies) {
             if (err) {
                 res.status(500).send({message: "Issue fetching movie"});
