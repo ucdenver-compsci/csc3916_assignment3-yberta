@@ -208,7 +208,7 @@ router.get('/movies/:movieId', authJwtController.isAuthenticated, function(req, 
                 $match: { _id: Types.ObjectId(req.params.movieId) } // Ensure this is the first stage
             }, {
                 $addFields: {
-                    avgRating: {$avg: '$Review.rating'}
+                    avgRating: {$avg: '$movieReviews.rating'}
                 }
             },
             /*{
