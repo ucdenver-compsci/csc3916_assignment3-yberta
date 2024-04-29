@@ -22,7 +22,7 @@ const MovieSchema = new Schema({
         actorName: String,
         characterName: String,
     }],
-    avgRating: {type: Number, default: 0},
+    //avgRating: {type: Number, default: 0},
     imageUrl : String
 });
 
