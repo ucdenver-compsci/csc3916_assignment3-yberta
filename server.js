@@ -114,32 +114,12 @@ router.post('/movies', authJwtController.isAuthenticated, function(req, res){
 });
 
 router.get('/movies', authJwtController.isAuthenticated, function(req,res){
-    Movie.aggregate([
-        {
-            $lookup: {
-                from: "reviews", // name of the foreign collection
-                localField: "_id", // field in the orders collection
-                foreignField: "movieId", // field in the items collection
-                as: "movieReviews" // output array where the joined items will be placed
-            }
-        },
-        {
-            $match: { _id: Types.ObjectId(req.params.movieId) } // Ensure this is the first stage
-        }, {
-            $addFields: {
-                avgRating: {$avg: '$movieReviews.rating'}
-            }
-        },
-        {
-            $sort: {avgRating: -1}
-        }
-    ]).exec(function (err, movies) {
+
+    Movie.find({}, function(err, movies){
         if (err) {
-            res.status(500).send({message: "Issue fetching movie"});
-        } else if (!movies || movies.length === 0) {
-            res.status(404).json({success: false, message: "No movies found."});
-        } else {
-            res.json(movies[0]);
+            return res.status(500).send(err);
+        }else{
+        res.json(movies);
         }
     });
 });
